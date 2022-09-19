@@ -1,0 +1,38 @@
+body {
+    padding: 10px;
+}
+
+.box {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.comment {
+    border-radius: 25px;
+    background: #73AD21;
+    padding: 20px;
+    width: 400px;
+    height: 100px;
+    margin: 10px;
+}
+
+.text {
+    font-weight: bold;
+}
+
+.listing {
+    margin: 20px;
+}
+
+img {
+    border: 2px solid #555;
+}
+
+.cardbox {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.boxp {
+    text-align: center;
+}

@@ -1,0 +1,31 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Current Watchlist</h2>
+    {% for watchlist in watchlists %}
+        <div class="form-control border-dark listing" style="width: 275px; display: inline-block;">
+            <div>
+                <a href="{{ watchlist.listing.item_name }}">
+                    
+                    {% if watchlist.listing.image %}
+                        <img src="{{ watchlist.listing.image }}" width="250" height="250" alt="{{ watchlist.listing.item_name}}">
+                    {% else %}
+                        <img src="files\listings\No-Image-Placeholder.svg.png" width="250" height="250" alt="{{ watchlist.listing.item_name}}">
+                    {% endif %}
+                </a>
+            </div>
+            <div>
+                <h4>{{ watchlist.listing.item_name }}</h4>
+                {% if watchlist.listing.item_detail %}
+                    <p>{{ watchlist.listing.item_detail}}</p>
+                {% else %}
+                    <p>No descriptions provided</p>
+                {% endif %}
+                <p>Listed By: {{ watchlist.listing.lister.username }}</p>
+                <h5>Starting at: ${{ watchlist.listing.price|floatformat:2 }}</h5>
+                <a href="{{ watchlist.listing.item_name }}"><p>{{ watchlist.listing.item_name }}</p></a>
+                <p>{{ watchlist.listing.date }}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    {% for listing in listings %}
+        <div class="form-control border-dark listing" style="width: 275px; display: inline-block;">
+            <div >
+                <a href="{{ listing.item_name }}">
+                    {% if listing.image %}
+                        <img src="{{ listing.image }}" width="250" height="250" alt="{{ listing.item_name}}">
+                    {% else %}
+                        <img src="files\listings\No-Image-Placeholder.svg.png" width="250" height="250" alt="{{ listing.item_name}}">
+                    {% endif %}
+                </a>
+            </div>
+            <div>
+                <h4>{{ listing.item_name }}</h4>
+                {% if listing.item_detail %}
+                    <p>{{ listing.item_detail}}</p>
+                {% else %}
+                    <p>No descriptions provided</p>
+                {% endif %}
+                <p>Listed By: {{ listing.lister.username }}</p>
+                <h5>Starting at: ${{ listing.price|floatformat:2 }}</h5>
+                <a href="{{ listing.item_name }}"><p>{{ listing.item_name }}</p></a>
+                <p>{{ listing.date }}</p>
+            </div>
+        </div>
+    {% endfor %}
+    {{ form }}
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Listing: {{ listing.item_name }}</h2>
+    <h4>Listed By: {{ listing.lister.username}}</h4>
+
+    <div class="box">
+        <form action="/{{ listing.item_name}}" method="get">
+            {% csrf_token %}
+            <input type="submit" value="Watchlist" name="watchlist">
+        </form>    
+    </div>
+
+    {% if listing.image %}
+        <img src="{{ listing.image }}" width="250" height="250" alt="{{ listing.item_name}}">
+    {% else %}
+        <img src="files\listings\No-Image-Placeholder.svg.png" width="250" height="250" alt="{{ listing.item_name}}">
+    {% endif %}
+
+    <p>{{ listing.item_detail }}</p>
+    {% if not sold_status %}
+        <p>Inital Price: ${{ listing.price|floatformat:2 }}<p>
+        {% if bid %}    
+            <h3>Current Bid Price: ${{ bid.bid_price|floatformat:2 }}</h3>
+        {% else %}
+            <h3>Current Bid Price: ${{ listing.price|floatformat:2 }}</h3>
+        {% endif %}
+    
+        {% if bidder %}
+            <p>{{ bid_count }} bid(s) so far. Your bid is the current bid.</p>
+        {% elif bid_count > 0 %}
+            <p>{{ bid_count }} bid(s) so far. {{ bid.bidder.username }}'s bid is the current bid.</p>
+        {% else %}
+            <p>No bids currently.</p>
+        {% endif %}
+
+        <div class="box">
+            <form action="/{{ listing.item_name}}" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Place Bid">
+            </form>
+        </div>
+
+    {% else %}
+        <h3>SOLD TO: {{ bid.bidder.username }}</h3>
+    {% endif %}
+    
+    <div style="margin-top: 10px;">
+        {% for comment in comments %}
+            <div class="comment">
+                <p class="text">{{ comment.comments }}</p>
+                <p>Posted by: {{ comment.person.username }} - {{ comment.date }}</p>
+            </div>        
+        {% endfor %}
+    </div>
+    
+    
+    <div class="box">
+        <form action="/{{ listing.item_name}}" method="get">
+            {% csrf_token %}
+            <div>
+                <textarea placeholder="Type here" rows="4" cols="50" name="comment"></textarea>
+            </div>
+            <input type="submit" value="Comment">
+        </form>
+    </div>
+
+    {% if own_listing %}
+        {% if not sold_status %}
+            <div style="display: inline-block;">
+                <form action="/{{ listing.item_name}}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Close Listing" style="background-color: #65DCF0;" name="close">
+                </form>
+            </div>
+        {% endif %}
+        <div style="display: inline-block;">
+            <form action="/{{ listing.item_name}}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Delete Listing" style="background-color: #F06565;" name="delete">
+            </form>
+        </div>
+        
+    {% endif %}
+{% endblock %}
